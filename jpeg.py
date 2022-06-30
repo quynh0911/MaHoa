@@ -500,8 +500,6 @@ class UI(QMainWindow):
         self.disRatio.setText("")
         self.disMSE.setText("")
 
-
-
 app = QApplication(sys.argv)
 win = UI()
 win.show()
