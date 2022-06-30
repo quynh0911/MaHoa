@@ -173,7 +173,8 @@ class UI(QMainWindow):
         self.image = cv2.imread(fname)
         self.xLen = self.image.shape[1] // 8
         self.yLen = self.image.shape[0] // 8
-        self.origin_img = cv2.resize(self.image, (560, 391))
+        self.origin_img = self.image
+        # self.origin_img = cv2.resize(self.image, (560, 391))
         self.tmp = self.image
         self.displayImage()
 
@@ -212,6 +213,7 @@ class UI(QMainWindow):
         # size of the image in bits before compression
         totalNumberOfBitsWithoutCompression = len(y) * len(y[0]) * 8 + len(cb) * len(cb[0]) * 8 + len(cr) * len(
             cr[0]) * 8
+
         # channel values should be normalized, hence subtract 128
         y = y - 128
         cr = cr - 128
@@ -347,7 +349,11 @@ class UI(QMainWindow):
         print(
             "Compression Ratio is " + str(
                 np.round(totalNumberOfBitsWithoutCompression / totalNumberOfBitsAfterCompression, 1)))
+        bitAfterCompression = totalNumberOfBitsAfterCompression / (width * height)
+        print(bitAfterCompression)
 
+        self.disSizeCompress.setText(str(bitAfterCompression))
+        self.disSizePre.setText(str(totalNumberOfBitsWithoutCompression/ (width * height)))
         _yq, _crq, _cbq = np.zeros((yLength, yWidth)), np.zeros((cLength, cWidth)), np.zeros((cLength, cWidth))
         _yDct, _crDct, _cbDct = np.zeros((yLength, yWidth)), np.zeros((cLength, cWidth)), np.zeros((cLength, cWidth))
         _yPadded, _crPadded, _cbPadded = np.zeros((yLength, yWidth)), np.zeros((cLength, cWidth)), np.zeros(
@@ -417,7 +423,8 @@ class UI(QMainWindow):
         _ycbcr = cv2.merge([_y.astype(np.uint8), _cr.astype(np.uint8), _cb.astype(np.uint8)])
         _img = cv2.cvtColor(_ycbcr, cv2.COLOR_YCR_CB2BGR)
         cv2.imwrite("img_aft.jpg", _img)
-        pre_img = cv2.resize(_img, (560, 391))
+        pre_img = _img
+        # pre_img = cv2.resize(_img, (560, 391))
         cv2.imwrite("pre_img.jpg", pre_img)
         self.pre_img = cv2.imread('pre_img.jpg')
         self.displayPreImage(2)
