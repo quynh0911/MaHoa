@@ -405,7 +405,7 @@ border-radius: 10px;
 </string>
     </property>
     <property name="text">
-     <string>MSE</string>
+     <string>QSNR</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

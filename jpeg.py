@@ -1,3 +1,5 @@
+import math
+
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
@@ -430,8 +432,10 @@ class UI(QMainWindow):
         self.displayPreImage(2)
         difference_array = np.subtract(_img, imgOriginal)
         squared_array = np.square(difference_array)
+
         mse = squared_array.mean()
         print(mse)
+        psnr = 20 * math.log10(255.0 / math.sqrt(mse))
         self.disRatio.setText(str(
                 np.round(totalNumberOfBitsWithoutCompression / totalNumberOfBitsAfterCompression, 1)))
         self.disMSE.setText(str(mse))
